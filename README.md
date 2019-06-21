@@ -18,6 +18,9 @@
                 @RequestMapping(value = ["/index"])
 ######    4. 在任何地方调用获取接口数据
                 val data = ApiUtils().getApiData("你的控制器所在的包路径", false);
+                或者或者前端可以直接展示的HTML文档,文档依赖layui且已经引入.
+                    + httpServletResponse.contentType = "text/html; charset=utf-8"  // 要浏览器能显示html文档
+                    + val html = ApiUtils().getApiDataWithHtml("你的控制器所在的包路径", false, "文档标题", "文档描述");
 ######    5. 接口数据,如果需要漂亮的显示方式可以编写一个HTML页面来接收展示数据
                 [
                     {
