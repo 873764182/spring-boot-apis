@@ -1,5 +1,6 @@
 package com.panxiong.apis
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.web.bind.annotation.RequestMapping
 import java.io.File
 import java.net.URL
@@ -319,5 +320,179 @@ class ApiUtils {
             }
         }
         return dataMap;
+    }
+
+    val htmlData = "<!DOCTYPE html>" +
+            "<html lang=\"en\">" +
+            "<head>" +
+            "    <meta charset=\"utf-8\">" +
+            "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">" +
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" +
+            "    <title>Title</title>" +
+            "    <link rel=\"stylesheet\" type=\"text/css\" href=\"//layui.hcwl520.com.cn/layui/css/layui.css\"/>" +
+            "    <style type=\"text/css\">" +
+            "        * {" +
+            "            font-family: PingFang SC, Lantinghei SC, Helvetica Neue, Helvetica, Arial, Microsoft YaHei, \\\\5FAE\\8F6F\\96C5\\9ED1, STHeitiSC-Light, simsun, \\\\5B8B\\4F53, WenQuanYi Zen Hei, WenQuanYi Micro Hei, \"sans-serif\";" +
+            "            margin: 0;" +
+            "            padding: 0;" +
+            "        }" +
+            "    </style>" +
+            "</head>" +
+            "<body>" +
+            "" +
+            "<div style=\"margin: 16px\">" +
+            "    <p style=\"font-size: 24px; font-weight: bold; color: #3385FF;\" id=\"titleView\">@DOC-TITLE</p>" +
+            "    <span style=\"color: burlywood; font-size: 14px;\">@DOC-DEPICT</span>" +
+            "</div>" +
+            "" +
+            "<div id=\"apisView\" style=\"margin: 16px;\"></div>" +
+            "" +
+            "<script src=\"//layui.hcwl520.com.cn/layui/layui.all.js\"></script>" +
+            "<script type=\"text/javascript\">" +
+            "    (function () {" +
+            "        document.title = layui.\$(\"#titleView\").text();" +
+            "    })();" +
+            "" +
+            "    var apiJsonData = \"@DOC-APIS-DATA\";" +
+            "" +
+            "    var jsonApisObject = JSON.parse(apiJsonData);" +
+            "" +
+            "    var controllerListView = \"\";" +
+            "    jsonApisObject.forEach(function (object) {" +
+            "        var methodListView = \"<p style='color: burlywood'>控制器没有标注接口</p>\";" +
+            "        var apisData = object.apis;" +
+            "        if (apisData !== undefined && apisData.length > 0) {" +
+            "            methodListView = \"\";" +
+            "            apisData.forEach(function (method) {" +
+            "                var paramsView = getParamView(method.params);" +
+            "                var resultExampleView = getResultExample(method.resultExample);" +
+            "                var resultParamsView = getResultParams(method.resultParams);" +
+            "" +
+            "                var requestMethod = \"<p style='font-weight: bold; font-size: 16px;'>\" +" +
+            "                    \"请求方式: <span style='color: burlywood; font-weight: normal'>\" + method.method +" +
+            "                    \"</span></p><br>\";" +
+            "                if (method.method === undefined || method.method.length <= 0) {" +
+            "                    requestMethod = \"<p style='font-weight: bold; font-size: 16px;'>\" +" +
+            "                        \"请求方式: <span style='color: burlywood; font-weight: normal'>默认</span>\" +" +
+            "                        \"</p><br>\";" +
+            "                }" +
+            "                var pathString = \"<span style='font-weight: bold; font-size: 16px;'>\" + method.path + \"</span>\";" +
+            "                var depictString = \" (<span style='color: #3385FF;'>\" + method.depict + \"</span>) \";" +
+            "                var methodView =" +
+            "                    \"  <div class='layui-colla-item' title='\" + method.depict + \"'>\" +" +
+            "                    \"    <h2 class='layui-colla-title'>\" + pathString + depictString + \"</h2>\" +" +
+            "                    \"    <div class='layui-colla-content'>\" +" +
+            "                    \"       \" + requestMethod + paramsView + resultExampleView + resultParamsView +" +
+            "                    \"    </div>\" +" +
+            "                    \"  </div>\";" +
+            "                methodListView += methodView;" +
+            "            });" +
+            "        }" +
+            "        methodListView = \"<div class='layui-collapse' lay-accordion>\" + methodListView + \"</div>\";" +
+            "" +
+            "        var controllerName = \"<span style='font-weight: bold; font-size: 16px;'>\" + object.controller + \"</span>\";" +
+            "        var depictString = \" (<span style='color: #3385FF;'>\" + object.depict + \"</span>) \";" +
+            "        var controllerView =" +
+            "            \"<div class='layui-colla-item' title='\" + object.depict + \"'>\" +" +
+            "            \"  <h2 class='layui-colla-title'>\" + controllerName + depictString + \"</h2>\" +" +
+            "            \"  <div class='layui-colla-content'>\" + methodListView + \"</div>\" +" +
+            "            \"</div>\";" +
+            "" +
+            "        controllerListView += controllerView;" +
+            "    });" +
+            "    var view = \"<div class='layui-collapse' lay-accordion>\" + controllerListView + \"</div>\";" +
+            "" +
+            "    layui.\$(\"#apisView\").html(view);" +
+            "    layui.element.init();" +
+            "" +
+            "    function getParamView(params) {" +
+            "        if (params === undefined || params.length <= 0) {" +
+            "            return \"<p style='color: burlywood'>没有参数描述</p>\";" +
+            "        }" +
+            "        var paramView = \"\";" +
+            "        params.forEach(function (item) {" +
+            "            var itemView =" +
+            "                \"<tr>\" +" +
+            "                \"  <td>\" + item.name + \"</td>\" +" +
+            "                \"  <td>\" + item.depict + \"</td>\" +" +
+            "                \"  <td>\" + item.type + \"</td>\" +" +
+            "                \"  <td>\" + item.required + \"</td>\" +" +
+            "                \"  <td>\" + item.example + \"</td>\" +" +
+            "                \"</tr>\";" +
+            "            paramView += itemView;" +
+            "        });" +
+            "" +
+            "        var tableView =" +
+            "            \"<table class='layui-table' lay-size='sm'>\" +" +
+            "            \"  <thead>\" +" +
+            "            \"    <tr>\" +" +
+            "            \"      <th>参数名称</th>\" +" +
+            "            \"      <th>参数说明</th>\" +" +
+            "            \"      <th>数据类型</th>\" +" +
+            "            \"      <th>是否必传</th>\" +" +
+            "            \"      <th>示例数据</th>\" +" +
+            "            \"    </tr> \" +" +
+            "            \"  </thead>\" +" +
+            "            \"  <tbody>\" +" +
+            "            \"   \" + paramView +" +
+            "            \"  </tbody>\" +" +
+            "            \"</table>\";" +
+            "" +
+            "        return \"<span style='font-size: 16px; font-weight: bold;'>参数说明</span><br>\" + tableView + \"<br>\";" +
+            "    }" +
+            "" +
+            "    function getResultExample(example) {" +
+            "        if (example === undefined || example.length <= 0) {" +
+            "            return \"<p style='color: burlywood'>没有返回值数据示例</p>\";" +
+            "        }" +
+            "        return \"<span style='font-size: 16px; font-weight: bold;'>返回值示例</span><br>\" + example + \"<br><br>\";" +
+            "    }" +
+            "" +
+            "    function getResultParams(resultParams) {" +
+            "        if (resultParams === undefined || resultParams.length <= 0) {" +
+            "            return \"<p style='color: burlywood'>没有返回值字段说明</p>\";" +
+            "        }" +
+            "        var paramView = \"\";" +
+            "        resultParams.forEach(function (result) {" +
+            "            var itemView =" +
+            "                \"<tr>\" +" +
+            "                \"  <td>\" + result.name + \"</td>\" +" +
+            "                \"  <td>\" + result.depict + \"</td>\" +" +
+            "                \"  <td>\" + result.type + \"</td>\" +" +
+            "                \"  <td>\" + result.required + \"</td>\" +" +
+            "                \"</tr>\";" +
+            "            paramView += itemView;" +
+            "        });" +
+            "" +
+            "        var tableView =" +
+            "            \"<table class='layui-table' lay-size='sm'>\" +" +
+            "            \"  <thead>\" +" +
+            "            \"    <tr>\" +" +
+            "            \"      <th>参数名称</th>\" +" +
+            "            \"      <th>参数说明</th>\" +" +
+            "            \"      <th>数据类型</th>\" +" +
+            "            \"      <th>是否必有</th>\" +" +
+            "            \"    </tr> \" +" +
+            "            \"  </thead>\" +" +
+            "            \"  <tbody>\" +" +
+            "            \"   \" + paramView +" +
+            "            \"  </tbody>\" +" +
+            "            \"</table>\";" +
+            "" +
+            "        return \"<span style='font-size: 16px; font-weight: bold;'>返回值说明</span><br>\" + tableView + \"<br>\";" +
+            "    }" +
+            "</script>" +
+            "</body>" +
+            "</html>";
+
+    fun getApiDataWithHtml(packName: String, isChild: Boolean = false, docTitle: String, docDepict: String): String {
+        var apiJsonData = ObjectMapper().writeValueAsString(getApiData(packName, isChild));
+        if (apiJsonData.isNotEmpty()) {
+            apiJsonData = apiJsonData.replace("\"", "\\\"");    // JSON引号问题
+        }
+        return htmlData
+                .replace("@DOC-TITLE", docTitle)
+                .replace("@DOC-DEPICT", docDepict)
+                .replace("@DOC-APIS-DATA", apiJsonData);
     }
 }
