@@ -185,6 +185,7 @@ class ApiUtils {
             val api = mutableMapOf<String, Any>();
             api["path"] = clsMapper.value[0] + rm.value[0];
             api["depict"] = am.value;
+            api["remark"] = am.depict;
             api["method"] = rm.method;
 
             val params = LinkedHashSet<Any>();
@@ -335,14 +336,14 @@ class ApiUtils {
         return dataMap;
     }
 
-    val htmlData = "<!DOCTYPE html>" +
+    private val htmlData = "<!DOCTYPE html>" +
             "<html lang=\"en\">" +
             "<head>" +
             "    <meta charset=\"utf-8\">" +
             "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">" +
             "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" +
             "    <title>Title</title>" +
-            "    <link rel=\"stylesheet\" type=\"text/css\" href=\"//layui.hcwl520.com.cn/layui/css/layui.css\"/>" +
+            "    <link rel=\"stylesheet\" type=\"text/css\" href=\"http://layui.hcwl520.com.cn/layui/css/layui.css\"/>" +
             "    <style type=\"text/css\">" +
             "        * {" +
             "            font-family: PingFang SC, Lantinghei SC, Helvetica Neue, Helvetica, Arial, Microsoft YaHei, \\\\5FAE\\8F6F\\96C5\\9ED1, STHeitiSC-Light, simsun, \\\\5B8B\\4F53, WenQuanYi Zen Hei, WenQuanYi Micro Hei, \"sans-serif\";" +
@@ -362,7 +363,7 @@ class ApiUtils {
             "" +
             "<div id=\"apisView\" style=\"margin: 16px;\"></div>" +
             "" +
-            "<script src=\"//layui.hcwl520.com.cn/layui/layui.all.js\"></script>" +
+            "<script src=\"http://layui.hcwl520.com.cn/layui/layui.all.js\"></script>" +
             "<script type=\"text/javascript\">" +
             "    (function () {" +
             "        document.title = layui.\$(\"#titleView\").text();" +
@@ -401,12 +402,13 @@ class ApiUtils {
             "                        \"</p><br>\";" +
             "                }" +
             "                var pathString = \"<p style='font-weight: bold; font-size: 16px;'>接口地址: <span style='color: burlywood; font-weight: normal'>\" + method.path + \"</span></p><br>\";" +
+            "                var remarkString = \"<p style='font-weight: bold; font-size: 16px;'>备注信息:<br><span style='color: burlywood; font-weight: normal; font-size: 14px;'>\" + method.remark + \"</span></p><br>\";" +
             "                var depictString = \"<span style='color: #3385FF;'>\" + method.depict + \"</span>\";" +
             "                var methodView =" +
             "                    \"  <div class='layui-colla-item' title='\" + method.depict + \"'>\" +" +
             "                    \"    <h2 class='layui-colla-title'>\" + depictString + \"</h2>\" +" +
             "                    \"    <div class='layui-colla-content'>\" +" +
-            "                    \"       \" + pathString + requestMethod + paramsView + resultExampleView + resultParamsView +" +
+            "                    \"       \" + pathString + requestMethod + paramsView + resultExampleView + resultParamsView + remarkString +" +
             "                    \"    </div>\" +" +
             "                    \"  </div>\";" +
             "                methodListView += methodView;" +

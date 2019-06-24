@@ -1,0 +1,313 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>标题</title>
+    <link rel="stylesheet" type="text/css" href="http://layui.hcwl520.com.cn/layui/css/layui.css">
+    <style type="text/css">        * {
+        font-family: PingFang SC, Lantinghei SC, Helvetica Neue, Helvetica, Arial, Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, STHeitiSC-Light, simsun, \\5B8B\4F53, WenQuanYi Zen Hei, WenQuanYi Micro Hei, "sans-serif";
+        margin: 0;
+        padding: 0;
+    }    </style>
+    <style></style>
+    <link id="layuicss-laydate" rel="stylesheet"
+          href="http://layui.hcwl520.com.cn/layui/css/modules/laydate/default/laydate.css?v=5.0.9" media="all">
+    <link id="layuicss-layer" rel="stylesheet"
+          href="http://layui.hcwl520.com.cn/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all">
+    <link id="layuicss-skincodecss" rel="stylesheet" href="http://layui.hcwl520.com.cn/layui/css/modules/code.css"
+          media="all">
+</head>
+<body>
+<div style="margin: 16px"><p style="font-size: 24px; font-weight: bold; color: #3385FF;" id="titleView">标题</p>    <span
+        style="color: burlywood; font-size: 14px;">描述</span></div>
+<div id="publicView" style="margin: 16px;"><span
+        style="font-size: 16px; font-weight: bold; color: burlywood;">公共参数</span><br>
+    <table class="layui-table" lay-size="sm">
+        <thead>
+        <tr>
+            <th>参数名称</th>
+            <th>数据类型</th>
+            <th>是否必有</th>
+            <th>提交位置</th>
+            <th>出参入参</th>
+            <th>参数示例</th>
+            <th>参数说明</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>a</td>
+            <td>String</td>
+            <td>true</td>
+            <td>Header</td>
+            <td>Other</td>
+            <td></td>
+            <td>123</td>
+        </tr>
+        <tr>
+            <td>b</td>
+            <td>Other</td>
+            <td>false</td>
+            <td>Header</td>
+            <td>Other</td>
+            <td></td>
+            <td>456</td>
+        </tr>
+        </tbody>
+    </table>
+    <br></div>
+<div id="apisView" style="margin: 16px;">
+    <div class="layui-collapse" lay-accordion="">
+        <div class="layui-colla-item" title="测试控制器"><h2 class="layui-colla-title"><span
+                style="font-weight: bold; font-size: 16px;">测试控制器</span> (<span style="color: #999999;">.controller.TestController</span>)
+            <i class="layui-icon layui-colla-icon"></i></h2>
+            <div class="layui-colla-content">
+                <div class="layui-collapse" lay-accordion="">
+                    <div class="layui-colla-item" title="测试接口,运行项目,直接访问这个接口即可查看接口数据"><h2 class="layui-colla-title"><span
+                            style="color: #3385FF;">测试接口,运行项目,直接访问这个接口即可查看接口数据</span><i
+                            class="layui-icon layui-colla-icon"></i></h2>
+                        <div class="layui-colla-content"><p style="font-weight: bold; font-size: 16px;">接口地址: <span
+                                style="color: burlywood; font-weight: normal">/test/index</span></p><br>
+                            <p style="font-weight: bold; font-size: 16px;">请求方式: <span
+                                    style="color: burlywood; font-weight: normal">默认</span></p><br><span
+                                    style="font-size: 16px; font-weight: bold;">参数说明</span><br>
+                            <table class="layui-table" lay-size="sm">
+                                <thead>
+                                <tr>
+                                    <th>参数名称</th>
+                                    <th>参数说明</th>
+                                    <th>数据类型</th>
+                                    <th>是否必传</th>
+                                    <th>示例数据</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>p1</td>
+                                    <td>参数1</td>
+                                    <td>String</td>
+                                    <td>false</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>p2</td>
+                                    <td>参数2</td>
+                                    <td>String</td>
+                                    <td>false</td>
+                                    <td>2</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br><span
+                                    style="font-size: 16px; font-weight: bold;">返回值示例</span><br>{"key":"value"}<br><br><span
+                                    style="font-size: 16px; font-weight: bold;">返回值说明</span><br>
+                            <table class="layui-table" lay-size="sm">
+                                <thead>
+                                <tr>
+                                    <th>参数名称</th>
+                                    <th>参数说明</th>
+                                    <th>数据类型</th>
+                                    <th>是否必有</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>p1</td>
+                                    <td>参数1</td>
+                                    <td>String</td>
+                                    <td>false</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Other</td>
+                                    <td>false</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <p style="font-weight: bold; font-size: 16px;">备注信息:<br><span
+                                    style="color: burlywood; font-weight: normal; font-size: 14px;">备注信息</span></p><br>
+                        </div>
+                    </div>
+                    <div class="layui-colla-item" title="接口2,获取JSON类型的原始数据"><h2 class="layui-colla-title"><span
+                            style="color: #3385FF;">接口2,获取JSON类型的原始数据</span><i class="layui-icon layui-colla-icon"></i>
+                    </h2>
+                        <div class="layui-colla-content"><p style="font-weight: bold; font-size: 16px;">接口地址: <span
+                                style="color: burlywood; font-weight: normal">/test/index2</span></p><br>
+                            <p style="font-weight: bold; font-size: 16px;">请求方式: <span
+                                    style="color: burlywood; font-weight: normal">GET,POST</span></p><br><span
+                                    style="font-size: 16px; font-weight: bold;">参数说明</span><br>
+                            <table class="layui-table" lay-size="sm">
+                                <thead>
+                                <tr>
+                                    <th>参数名称</th>
+                                    <th>参数说明</th>
+                                    <th>数据类型</th>
+                                    <th>是否必传</th>
+                                    <th>示例数据</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>p1</td>
+                                    <td>参数1</td>
+                                    <td>String</td>
+                                    <td>false</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>p2</td>
+                                    <td>参数2</td>
+                                    <td>String</td>
+                                    <td>false</td>
+                                    <td>2</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br><span
+                                    style="font-size: 16px; font-weight: bold;">返回值示例</span><br>{"key":"value"}<br><br><span
+                                    style="font-size: 16px; font-weight: bold;">返回值说明</span><br>
+                            <table class="layui-table" lay-size="sm">
+                                <thead>
+                                <tr>
+                                    <th>参数名称</th>
+                                    <th>参数说明</th>
+                                    <th>数据类型</th>
+                                    <th>是否必有</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>p1</td>
+                                    <td>参数1</td>
+                                    <td>String</td>
+                                    <td>false</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <p style="font-weight: bold; font-size: 16px;">备注信息:<br><span
+                                    style="color: burlywood; font-weight: normal; font-size: 14px;">这是接口备注说明信息</span>
+                            </p><br></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://layui.hcwl520.com.cn/layui/layui.all.js"></script>
+<script type="text/javascript">    (function () {
+    document.title = layui.$("#titleView").text();
+})();
+var basePackName = 'com.example.demo';
+var publicParamData = '[{\"name\":\"a\",\"place\":\"Header\",\"type\":\"String\",\"required\":true,\"pio\":\"Other\",\"example\":\"\",\"depict\":\"123\"},{\"name\":\"b\",\"place\":\"Header\",\"type\":\"Other\",\"required\":false,\"pio\":\"Other\",\"example\":\"\",\"depict\":\"456\"}]';
+if (publicParamData !== ('@DOC-PUBLIC' + '-PARAM')) {
+    var publicView = createPublicParamView(publicParamData);
+    layui.$("#publicView").html(publicView);
+    layui.$("#publicView").show();
+}
+var apiJsonData = '[{\"controller\":\"com.example.demo.controller.TestController\",\"depict\":\"测试控制器\",\"apis\":[{\"path\":\"/test/index\",\"depict\":\"测试接口,运行项目,直接访问这个接口即可查看接口数据\",\"remark\":\"备注信息\",\"method\":[],\"params\":[{\"name\":\"p1\",\"depict\":\"参数1\",\"required\":false,\"type\":\"String\",\"example\":\"1\"},{\"name\":\"p2\",\"depict\":\"参数2\",\"required\":false,\"type\":\"String\",\"example\":\"2\"}],\"resultExample\":\"{\\"key\\":\\"value\\"}\",\"resultParams\":[{\"name\":\"p1\",\"depict\":\"参数1\",\"required\":false,\"type\":\"String\",\"example\":\"1\"},{\"name\":\"\",\"depict\":\"\",\"required\":false,\"type\":\"Other\",\"example\":\"\"}]},{\"path\":\"/test/index2\",\"depict\":\"接口2,获取JSON类型的原始数据\",\"remark\":\"这是接口备注说明信息\",\"method\":[\"GET\",\"POST\"],\"params\":[{\"name\":\"p1\",\"depict\":\"参数1\",\"required\":false,\"type\":\"String\",\"example\":\"1\"},{\"name\":\"p2\",\"depict\":\"参数2\",\"required\":false,\"type\":\"String\",\"example\":\"2\"}],\"resultExample\":\"{\\"key\\":\\"value\\"}\",\"resultParams\":[{\"name\":\"p1\",\"depict\":\"参数1\",\"required\":false,\"type\":\"String\",\"example\":\"1\"}]}]}]';
+var jsonApisObject = JSON.parse(apiJsonData);
+var controllerListView = "";
+jsonApisObject.forEach(function (object) {
+    var methodListView = "<p style='color: burlywood'>控制器没有标注接口</p>";
+    var apisData = object.apis;
+    if (apisData !== undefined && apisData.length > 0) {
+        methodListView = "";
+        apisData.forEach(function (method) {
+            var paramsView = getParamView(method.params);
+            var resultExampleView = getResultExample(method.resultExample);
+            var resultParamsView = getResultParams(method.resultParams);
+            var requestMethod = "<p style='font-weight: bold; font-size: 16px;'>" + "请求方式: <span style='color: burlywood; font-weight: normal'>" + method.method + "</span></p><br>";
+            if (method.method === undefined || method.method.length <= 0) {
+                requestMethod = "<p style='font-weight: bold; font-size: 16px;'>" + "请求方式: <span style='color: burlywood; font-weight: normal'>默认</span>" + "</p><br>";
+            }
+            var pathString = "<p style='font-weight: bold; font-size: 16px;'>接口地址: <span style='color: burlywood; font-weight: normal'>" + method.path + "</span></p><br>";
+            var remarkString = "<p style='font-weight: bold; font-size: 16px;'>备注信息:<br><span style='color: burlywood; font-weight: normal; font-size: 14px;'>" + method.remark + "</span></p><br>";
+            var depictString = "<span style='color: #3385FF;'>" + method.depict + "</span>";
+            var methodView = "  <div class='layui-colla-item' title='" + method.depict + "'>" + "    <h2 class='layui-colla-title'>" + depictString + "</h2>" + "    <div class='layui-colla-content'>" + "       " + pathString + requestMethod + paramsView + resultExampleView + resultParamsView + remarkString + "    </div>" + "  </div>";
+            methodListView += methodView;
+        });
+    }
+    methodListView = "<div class='layui-collapse' lay-accordion>" + methodListView + "</div>";
+    var depictString = "<span style='font-weight: bold; font-size: 16px;'>" + object.depict + "</span>";
+    var controllerName = " (<span style='color: #999999;'>" + object.controller + "</span>) ";
+    controllerName = controllerName.replace(basePackName, '');
+    var controllerView = "<div class='layui-colla-item' title='" + object.depict + "'>" + "  <h2 class='layui-colla-title'>" + depictString + controllerName + "</h2>" + "  <div class='layui-colla-content'>" + methodListView + "</div>" + "</div>";
+    controllerListView += controllerView;
+});
+var view = "<div class='layui-collapse' lay-accordion>" + controllerListView + "</div>";
+layui.$("#apisView").html(view);
+layui.element.init();
+
+function getParamView(params) {
+    if (params === undefined || params.length <= 0) {
+        return "<p style='color: burlywood'>没有参数描述</p>";
+    }
+    var paramView = "";
+    params.forEach(function (item) {
+        var itemView = "<tr>" + "  <td>" + item.name + "</td>" + "  <td>" + item.depict + "</td>" + "  <td>" + item.type + "</td>" + "  <td>" + item.required + "</td>" + "  <td>" + item.example + "</td>" + "</tr>";
+        paramView += itemView;
+    });
+    var tableView = "<table class='layui-table' lay-size='sm'>" + "  <thead>" + "    <tr>" + "      <th>参数名称</th>" + "      <th>参数说明</th>" + "      <th>数据类型</th>" + "      <th>是否必传</th>" + "      <th>示例数据</th>" + "    </tr> " + "  </thead>" + "  <tbody>" + "   " + paramView + "  </tbody>" + "</table>";
+    return "<span style='font-size: 16px; font-weight: bold;'>参数说明</span><br>" + tableView + "<br>";
+}
+
+function getResultExample(example) {
+    if (example === undefined || example.length <= 0) {
+        return "<p style='color: burlywood'>没有返回值数据示例</p>";
+    }
+    return "<span style='font-size: 16px; font-weight: bold;'>返回值示例</span><br>" + example + "<br><br>";
+}
+
+function getResultParams(resultParams) {
+    if (resultParams === undefined || resultParams.length <= 0) {
+        return "<p style='color: burlywood'>没有返回值字段说明</p>";
+    }
+    var paramView = "";
+    resultParams.forEach(function (result) {
+        var itemView = "<tr>" + "  <td>" + result.name + "</td>" + "  <td>" + result.depict + "</td>" + "  <td>" + result.type + "</td>" + "  <td>" + result.required + "</td>" + "</tr>";
+        paramView += itemView;
+    });
+    var tableView = "<table class='layui-table' lay-size='sm'>" + "  <thead>" + "    <tr>" + "      <th>参数名称</th>" + "      <th>参数说明</th>" + "      <th>数据类型</th>" + "      <th>是否必有</th>" + "    </tr> " + "  </thead>" + "  <tbody>" + "   " + paramView + "  </tbody>" + "</table>";
+    return "<span style='font-size: 16px; font-weight: bold;'>返回值说明</span><br>" + tableView + "<br>";
+}
+
+function createPublicParamView(publicParams) {
+    if (publicParams === undefined || publicParams.length <= 0) {
+        return "<p style='color: burlywood'>没有返回值字段说明</p>";
+    }
+    var paramView = "";
+    JSON.parse(publicParams).forEach(function (result) {
+        var itemView = "<tr>" + "  <td>" + result.name + "</td>" + "  <td>" + result.type + "</td>" + "  <td>" + result.required + "</td>" + "  <td>" + result.place + "</td>" + "  <td>" + result.pio + "</td>" + "  <td>" + result.example + "</td>" + "  <td>" + result.depict + "</td>" + "</tr>";
+        paramView += itemView;
+    });
+    var tableView = "<table class='layui-table' lay-size='sm'>" + "  <thead>" + "    <tr>" + "      <th>参数名称</th>" + "      <th>数据类型</th>" + "      <th>是否必有</th>" + "      <th>提交位置</th>" + "      <th>出参入参</th>" + "      <th>参数示例</th>" + "      <th>参数说明</th>" + "    </tr> " + "  </thead>" + "  <tbody>" + "   " + paramView + "  </tbody>" + "</table>";
+    return "<span style='font-size: 16px; font-weight: bold; color: burlywood;'>公共参数</span><br>" + tableView + "<br>";
+}
+
+var passwordValue = '123456';
+var pass = localStorage.getItem('doc-pass-data');
+if (pass !== passwordValue) {
+    layer.open({
+        title: "输入密码",
+        content: "<div style='padding: 8px 16px 8px 16px'> <input type='password' id='passwordView' style='width: 100%; height: 32px;'></div>",
+        yes: function (index, layero) {
+            var value = layui.$('#passwordView').val();
+            var ePass = encodeURIComponent(value);
+            if (ePass === passwordValue) {
+                localStorage.setItem('doc-pass-data', ePass);
+                layer.close(index);
+            } else {
+                layer.msg('密码错误');
+            }
+        },
+        end: function () {
+            window.location.reload();
+        }
+    });
+}</script>
+</body>
+</html>
