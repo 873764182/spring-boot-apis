@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import java.io.File
 import java.net.URL
 import java.net.URLClassLoader
+import java.net.URLEncoder
 import java.util.*
 import java.util.jar.JarFile
 import kotlin.collections.LinkedHashMap
@@ -12,6 +13,10 @@ import kotlin.collections.LinkedHashSet
 
 
 class ApiUtils {
+
+    companion object {
+        private val mCacheMap = mutableMapOf<String, Any>();    // 数据缓存
+    }
 
     /**
      * 获取某包下所有类
@@ -308,6 +313,11 @@ class ApiUtils {
     ]
      */
     fun getApiData(packName: String, isChild: Boolean = false): Set<Any> {
+        val cacheData = mCacheMap[packName + isChild];
+        if (cacheData != null && cacheData is Set<*>) {
+            return cacheData as Set<Any>;
+        }
+
         val packageList = getClassName(packName, isChild)
         if (packageList.isNullOrEmpty()) {
             return setOf();
@@ -319,6 +329,9 @@ class ApiUtils {
                 dataMap.add(apiData);
             }
         }
+
+        mCacheMap[packName + isChild] = dataMap;
+
         return dataMap;
     }
 
@@ -345,6 +358,8 @@ class ApiUtils {
             "    <span style=\"color: burlywood; font-size: 14px;\">@DOC-DEPICT</span>" +
             "</div>" +
             "" +
+            "<div id=\"publicView\" style=\"margin: 16px; display: none;\"></div>" +
+            "" +
             "<div id=\"apisView\" style=\"margin: 16px;\"></div>" +
             "" +
             "<script src=\"//layui.hcwl520.com.cn/layui/layui.all.js\"></script>" +
@@ -353,7 +368,16 @@ class ApiUtils {
             "        document.title = layui.\$(\"#titleView\").text();" +
             "    })();" +
             "" +
-            "    var apiJsonData = \"@DOC-APIS-DATA\";" +
+            "    var basePackName = '@DOC-PACK-NAME'; " +
+            "" +
+            "    var publicParamData = '@DOC-PUBLIC-PARAM';" +
+            "    if (publicParamData !== ('@DOC-PUBLIC' + '-PARAM')) {" +
+            "        var publicView = createPublicParamView(publicParamData);" +
+            "        layui.\$(\"#publicView\").html(publicView); " +
+            "        layui.\$(\"#publicView\").show();" +
+            "    } " +
+            "" +
+            "    var apiJsonData = '@DOC-APIS-DATA';" +
             "" +
             "    var jsonApisObject = JSON.parse(apiJsonData);" +
             "" +
@@ -376,13 +400,13 @@ class ApiUtils {
             "                        \"请求方式: <span style='color: burlywood; font-weight: normal'>默认</span>\" +" +
             "                        \"</p><br>\";" +
             "                }" +
-            "                var pathString = \"<span style='font-weight: bold; font-size: 16px;'>\" + method.path + \"</span>\";" +
-            "                var depictString = \" (<span style='color: #3385FF;'>\" + method.depict + \"</span>) \";" +
+            "                var pathString = \"<p style='font-weight: bold; font-size: 16px;'>接口地址: <span style='color: burlywood; font-weight: normal'>\" + method.path + \"</span></p><br>\";" +
+            "                var depictString = \"<span style='color: #3385FF;'>\" + method.depict + \"</span>\";" +
             "                var methodView =" +
             "                    \"  <div class='layui-colla-item' title='\" + method.depict + \"'>\" +" +
-            "                    \"    <h2 class='layui-colla-title'>\" + pathString + depictString + \"</h2>\" +" +
+            "                    \"    <h2 class='layui-colla-title'>\" + depictString + \"</h2>\" +" +
             "                    \"    <div class='layui-colla-content'>\" +" +
-            "                    \"       \" + requestMethod + paramsView + resultExampleView + resultParamsView +" +
+            "                    \"       \" + pathString + requestMethod + paramsView + resultExampleView + resultParamsView +" +
             "                    \"    </div>\" +" +
             "                    \"  </div>\";" +
             "                methodListView += methodView;" +
@@ -390,11 +414,12 @@ class ApiUtils {
             "        }" +
             "        methodListView = \"<div class='layui-collapse' lay-accordion>\" + methodListView + \"</div>\";" +
             "" +
-            "        var controllerName = \"<span style='font-weight: bold; font-size: 16px;'>\" + object.controller + \"</span>\";" +
-            "        var depictString = \" (<span style='color: #3385FF;'>\" + object.depict + \"</span>) \";" +
+            "        var depictString = \"<span style='font-weight: bold; font-size: 16px;'>\" + object.depict + \"</span>\";" +
+            "        var controllerName = \" (<span style='color: #999999;'>\" + object.controller + \"</span>) \";" +
+            "        controllerName = controllerName.replace(basePackName, ''); " +
             "        var controllerView =" +
             "            \"<div class='layui-colla-item' title='\" + object.depict + \"'>\" +" +
-            "            \"  <h2 class='layui-colla-title'>\" + controllerName + depictString + \"</h2>\" +" +
+            "            \"  <h2 class='layui-colla-title'>\" + depictString + controllerName + \"</h2>\" +" +
             "            \"  <div class='layui-colla-content'>\" + methodListView + \"</div>\" +" +
             "            \"</div>\";" +
             "" +
@@ -480,19 +505,94 @@ class ApiUtils {
             "            \"</table>\";" +
             "" +
             "        return \"<span style='font-size: 16px; font-weight: bold;'>返回值说明</span><br>\" + tableView + \"<br>\";" +
+            "    } " +
+            "" +
+            "    function createPublicParamView(publicParams) {" +
+            "        if (publicParams === undefined || publicParams.length <= 0) {" +
+            "            return \"<p style='color: burlywood'>没有返回值字段说明</p>\";" +
+            "        }" +
+            "        var paramView = \"\";" +
+            "        JSON.parse(publicParams).forEach(function (result) {" +
+            "            var itemView =" +
+            "                \"<tr>\" +" +
+            "                \"  <td>\" + result.name + \"</td>\" +" +
+            "                \"  <td>\" + result.type + \"</td>\" +" +
+            "                \"  <td>\" + result.required + \"</td>\" +" +
+            "                \"  <td>\" + result.place + \"</td>\" +" +
+            "                \"  <td>\" + result.pio + \"</td>\" +" +
+            "                \"  <td>\" + result.example + \"</td>\" +" +
+            "                \"  <td>\" + result.depict + \"</td>\" +" +
+            "                \"</tr>\";" +
+            "            paramView += itemView;" +
+            "        });" +
+            "" +
+            "        var tableView =" +
+            "            \"<table class='layui-table' lay-size='sm'>\" +" +
+            "            \"  <thead>\" +" +
+            "            \"    <tr>\" +" +
+            "            \"      <th>参数名称</th>\" +" +
+            "            \"      <th>数据类型</th>\" +" +
+            "            \"      <th>是否必有</th>\" +" +
+            "            \"      <th>提交位置</th>\" +" +
+            "            \"      <th>出参入参</th>\" +" +
+            "            \"      <th>参数示例</th>\" +" +
+            "            \"      <th>参数说明</th>\" +" +
+            "            \"    </tr> \" +" +
+            "            \"  </thead>\" +" +
+            "            \"  <tbody>\" +" +
+            "            \"   \" + paramView +" +
+            "            \"  </tbody>\" +" +
+            "            \"</table>\";" +
+            "" +
+            "        return \"<span style='font-size: 16px; font-weight: bold; color: burlywood;'>公共参数</span><br>\" + tableView + \"<br>\";" +
+            "    }  " +
+            "" +
+            "    var passwordValue = '@DOC-PASS';" +
+            "    var pass = localStorage.getItem('doc-pass-data');" +
+            "    if (pass !== passwordValue) {" +
+            "        layer.open({" +
+            "            title: \"输入密码\"," +
+            "            content: \"<div style='padding: 8px 16px 8px 16px'> <input type='password' id='passwordView' style='width: 100%; height: 32px;'></div>\"," +
+            "            yes: function(index, layero){ " +
+            "                var value = layui.\$('#passwordView').val();" +
+            "                var ePass = encodeURIComponent(value);" +
+            "                if (ePass === passwordValue) {" +
+            "                    localStorage.setItem('doc-pass-data', ePass);" +
+            "                    layer.close(index);" +
+            "                }else {" +
+            "                    layer.msg('密码错误');" +
+            "                }" +
+            "            }," +
+            "            end:function () {" +
+            "                window.location.reload();" +
+            "            }" +
+            "        });" +
             "    }" +
             "</script>" +
             "</body>" +
             "</html>";
 
-    fun getApiDataWithHtml(packName: String, isChild: Boolean = false, docTitle: String, docDepict: String): String {
+    fun getApiDataWithHtml(
+            packName: String, isChild: Boolean = false,
+            docTitle: String = "", docDepict: String = "",
+            publicParams: List<ApiPub> = listOf(), defPass: String = "123456"): String {
         var apiJsonData = ObjectMapper().writeValueAsString(getApiData(packName, isChild));
         if (apiJsonData.isNotEmpty()) {
             apiJsonData = apiJsonData.replace("\"", "\\\"");    // JSON引号问题
         }
-        return htmlData
+        var htmlDoc = htmlData
+                .replace("@DOC-PASS", URLEncoder.encode(defPass, "UTF-8"))
+                .replace("@DOC-PACK-NAME", packName)
                 .replace("@DOC-TITLE", docTitle)
                 .replace("@DOC-DEPICT", docDepict)
                 .replace("@DOC-APIS-DATA", apiJsonData);
+        if (publicParams.isNotEmpty()) {
+            var publicJsonData = ObjectMapper().writeValueAsString(publicParams);
+            if (publicJsonData.isNotEmpty()) {
+                publicJsonData = publicJsonData.replace("\"", "\\\"");    // JSON引号问题
+            }
+            htmlDoc = htmlDoc.replace("@DOC-PUBLIC-PARAM", publicJsonData);
+        }
+        return htmlDoc;
     }
 }
