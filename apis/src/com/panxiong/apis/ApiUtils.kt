@@ -182,30 +182,39 @@ class ApiUtils {
             val am = method.getAnnotation(ApiMethod::class.java);
             val rm = method.getAnnotation(RequestMapping::class.java);
 
+            val pathList = mutableListOf<String>();
+            if (clsMapper.value.isNotEmpty() && rm.value.isNotEmpty()) {
+                clsMapper.value.forEach { c ->
+                    rm.value.forEach { m ->
+                        pathList.add(c + m);    // 多个路径组合
+                    }
+                }
+            }
+
             val api = mutableMapOf<String, Any>();
-            api["path"] = clsMapper.value[0] + rm.value[0];
+            api["path"] = pathList; // clsMapper.value[0] + rm.value[0]; // 只读第一个路径
             api["depict"] = am.value;
             api["remark"] = am.depict;
             api["method"] = rm.method;
 
-            val params = LinkedHashSet<Any>();
-            am.params.forEach {
-                val pm = mutableMapOf<String, Any>();
-                pm["name"] = it.value;
-                pm["depict"] = it.depict;
-                pm["required"] = it.required;
-                pm["type"] = it.type;
-                pm["example"] = it.example;
-                params.add(pm);
+            if (am.params.isNotEmpty()) {
+                val params = LinkedHashSet<Any>();
+                am.params.forEach {
+                    val pm = mutableMapOf<String, Any>();
+                    pm["name"] = it.value;
+                    pm["depict"] = it.depict;
+                    pm["required"] = it.required;
+                    pm["type"] = it.type;
+                    pm["example"] = it.example;
+                    params.add(pm);
+                }
+                api["params"] = params;
             }
-            api["params"] = params;
-            apis.add(api);
 
             // 处理响应结果
-            val methodResult = method.getAnnotation(ApiResult::class.java);
-            if (methodResult != null) {
+            if (am.result.isNotEmpty()) {
                 val resultParams = LinkedHashSet<Any>();
-                methodResult.params.forEach {
+                am.result.forEach {
                     val pm = mutableMapOf<String, Any>();
                     pm["name"] = it.value;
                     pm["depict"] = it.depict;
@@ -214,10 +223,15 @@ class ApiUtils {
                     pm["example"] = it.example;
                     resultParams.add(pm);
                 }
-                api["resultExample"] = methodResult.value;
                 api["resultParams"] = resultParams;
             }
+            if (am.example.isNotEmpty()) {
+                api["resultExample"] = am.example;
+            }
+
+            apis.add(api);
         }
+
         data["apis"] = apis;
 
         return data;
@@ -472,7 +486,7 @@ class ApiUtils {
             "        if (example === undefined || example.length <= 0) {" +
             "            return \"<p style='color: burlywood'>没有返回值数据示例</p>\";" +
             "        }" +
-            "        return \"<span style='font-size: 16px; font-weight: bold;'>返回值示例</span><br>\" + example + \"<br><br>\";" +
+            "        return \"<span style='font-size: 16px; font-weight: bold;'>返回值示例</span><br><span style='color: burlywood;'>\" + example + \"</span><br><br>\";" +
             "    }" +
             "" +
             "    function getResultParams(resultParams) {" +
@@ -495,8 +509,8 @@ class ApiUtils {
             "            \"<table class='layui-table' lay-size='sm'>\" +" +
             "            \"  <thead>\" +" +
             "            \"    <tr>\" +" +
-            "            \"      <th>参数名称</th>\" +" +
-            "            \"      <th>参数说明</th>\" +" +
+            "            \"      <th>字段名称</th>\" +" +
+            "            \"      <th>字段说明</th>\" +" +
             "            \"      <th>数据类型</th>\" +" +
             "            \"      <th>是否必有</th>\" +" +
             "            \"    </tr> \" +" +
