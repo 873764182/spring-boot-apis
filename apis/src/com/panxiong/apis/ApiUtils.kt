@@ -374,7 +374,12 @@ class ApiUtils {
             "    <span style=\"color: burlywood; font-size: 14px;\">@DOC-DEPICT</span>" +
             "</div>" +
             "" +
-            "<div id=\"publicView\" style=\"margin: 16px; display: none;\"></div>" +
+            "<div id=\"publicView\" style=\"margin: 16px; display: none;\" class=\"layui-collapse\">" +
+            "    <div class=\"layui-colla-item\">" +
+            "       <h2 class=\"layui-colla-title\" style='font-weight: bold; font-size: 16px; color: #3385FF;'>公共参数</h2>" +
+            "       <div class=\"layui-colla-content\"  id=\"publicViewContent\">内容区域</div>" +
+            "    </div>" +
+            "</div>" +
             "" +
             "<div id=\"apisView\" style=\"margin: 16px;\"></div>" +
             "" +
@@ -389,7 +394,7 @@ class ApiUtils {
             "    var publicParamData = '@DOC-PUBLIC-PARAM';" +
             "    if (publicParamData !== ('@DOC-PUBLIC' + '-PARAM')) {" +
             "        var publicView = createPublicParamView(publicParamData);" +
-            "        layui.\$(\"#publicView\").html(publicView); " +
+            "        layui.\$(\"#publicViewContent\").html(publicView); " +
             "        layui.\$(\"#publicView\").show();" +
             "    } " +
             "" +
@@ -561,7 +566,7 @@ class ApiUtils {
             "            \"  </tbody>\" +" +
             "            \"</table>\";" +
             "" +
-            "        return \"<span style='font-size: 16px; font-weight: bold; color: burlywood;'>公共参数</span><br>\" + tableView + \"<br>\";" +
+            "        return tableView;" +
             "    }  " +
             "" +
             "    var passwordValue = '@DOC-PASS';" +
