@@ -350,6 +350,7 @@ class ApiUtils {
         return dataMap;
     }
 
+    // TODO 这个文档应该放在单独的html中方便修改样式.
     private val htmlData = "<!DOCTYPE html>" +
             "<html lang=\"en\">" +
             "<head>" +
@@ -591,7 +592,8 @@ class ApiUtils {
     fun getApiDataWithHtml(
             packName: String, isChild: Boolean = false,
             docTitle: String = "", docDepict: String = "",
-            publicParams: List<ApiPub> = listOf(), defPass: String = "123456"): String {
+            publicParams: List<ApiPub> = listOf(), defPass: String = "123456",
+            isZip: Boolean = true): String {
         var apiJsonData = ObjectMapper().writeValueAsString(getApiData(packName, isChild));
         if (apiJsonData.isNotEmpty()) {
             apiJsonData = apiJsonData.replace("\"", "\\\"");    // JSON引号问题
@@ -609,6 +611,10 @@ class ApiUtils {
             }
             htmlDoc = htmlDoc.replace("@DOC-PUBLIC-PARAM", publicJsonData);
         }
-        return htmlDoc;
+        return if (isZip) {
+            htmlDoc.replace("  ", "");
+        } else {
+            htmlDoc;
+        }
     }
 }
