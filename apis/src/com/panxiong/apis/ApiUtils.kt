@@ -62,7 +62,7 @@ class ApiUtils {
         for (childFile in childFiles) {
             if (childFile.isDirectory) {
                 if (childPackage) {
-                    myClassName.addAll(getClassNameByFile(childFile.path, myClassName, childPackage))
+                    myClassName.addAll(getClassNameByFile(childFile.path, myClassName as List<String>?, childPackage))
                 }
             } else {
                 var childFilePath = childFile.path
