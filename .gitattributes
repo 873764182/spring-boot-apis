@@ -1,0 +1,8 @@
+*.properties linguist-language=kotlin
+*.kt linguist-language=kotlin
+*.html linguist-language=kotlin
+*.js linguist-language=kotlin
+*.xml linguist-language=kotlin
+*.css linguist-language=kotlin
+*.sql linguist-language=kotlin
+*.json linguist-language=kotlin
